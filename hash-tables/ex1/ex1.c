@@ -12,8 +12,15 @@ Answer *get_indices_of_item_weights(int *weights, int length, int limit)
   output->index_1 = -1;
   output->index_2 = -1;
 
+  // Loop through the weight array and see if its
+  // value is a key in the hash table. If it isn't,
+  // create a new key which is equal to limit - weight and
+  // value equal to the index. This way if there is a weight
+  // that matches this key, it will add up to the limit.
   for (int i = 0; i < length; i++)
   {
+
+    // If there is a match
     if (hash_table_retrieve(ht, weights[i]) != -1)
     {
       output->index_1 = i;
@@ -21,6 +28,8 @@ Answer *get_indices_of_item_weights(int *weights, int length, int limit)
 
       return output;
     }
+
+    // Create the key, value if there is no match
     hash_table_insert(ht, (limit - weights[i]), i);
   }
 
