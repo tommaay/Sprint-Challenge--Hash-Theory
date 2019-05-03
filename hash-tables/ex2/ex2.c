@@ -11,17 +11,36 @@ char **reconstruct_trip(Ticket **tickets, int length)
 
   // YOUR CODE HERE
 
+  // create a hash table with source as key and destination as value
+  for (int i = 0; i < length; i++)
+  {
+    hash_table_insert(ht, tickets[i]->source, tickets[i]->destination);
+  }
+
+  // add first route where source === 'NONE'
+  char *dest = hash_table_retrieve(ht, "NONE");
+  route[0] = dest;
+
+  // loop through the rest asign the value of
+  // the ht[dest] as the next route
+  for (int i = 1; i < length; i++)
+  {
+    dest = hash_table_retrieve(ht, dest);
+    route[i] = dest;
+  }
+
+  destroy_hash_table(ht);
+
   return route;
 }
 
 void print_route(char **route, int length)
 {
-  for (int i = 0; i < length; i++) {
+  for (int i = 0; i < length; i++)
+  {
     printf("%s\n", route[i]);
   }
 }
-
-
 
 #ifndef TESTING
 int main(void)
